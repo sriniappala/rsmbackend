@@ -3,19 +3,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const requirementSchema = new Schema({
-    requirementid : { type: String, required: true, unique: true },
+    _id : { type: String, required: true },
     openDate: { type: Date, required: true },
-    statementOrder: { type: Number, required: true },
-    winzoneID: { type: String, required: true },
-    department: { type: String, required: true },
-    jobTitle: { type: String, required: true },
+    statementOrder: { type: Number },
+    winzoneID: { type: String },
+    department: { type: String },
+    jobTitle: { type: String },
     primarySkills: { type: String, required: true },
-    JobDescripiton: { type: String, required: true},
-    startDate: { type: Date, required: true },
-    duration: { type: String, required: true }, 
+    jobDescription: { type: String },
+    startDate: { type: Date },
+    duration: { type: String }, 
     requirementSts: { type: String, required: true },  
-    clientRate: { type: Number, required: true },      
-    vendorRate: { type: Number, required: true },      
+    clientRate: { type: Number },      
+    vendorRate: { type: Number },      
     openPosition: { type: Number, required: true },      
     filledPositions: { type: Number, required: true },       
     profilesReceived: { type: Number, required: true },      
@@ -25,6 +25,6 @@ const requirementSchema = new Schema({
     resourceInformation: { type: Object}
   });
 
-  const Requirementmodel = mongoose.model('requirement', requirementSchema);
+  const Requirementmodel = mongoose.model('requirements', requirementSchema);
 
   module.exports = Requirementmodel;
