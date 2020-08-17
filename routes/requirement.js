@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Requirement = require('../model/requirement');
+const { find, db } = require('../model/requirement');
 
 router.route('/home').get((req, res) => {
   console.log('Entered into Get Home API call...');
@@ -44,6 +45,13 @@ router.route('/home').get((req, res) => {
    )
   .then(requirement => res.json(requirement))
   .catch(err => res.status(400).json('Error' + err));
+});
+
+router.route('/').get((req, res) => {
+
+  Requirement.find()
+    .then(requirements => res.json(requirements))
+    .catch(err => res.status(400).json('Error:' + err))
 });
 
 router.route('/add').post((req, res) => {
@@ -97,10 +105,35 @@ router.route('/add').post((req, res) => {
   .catch(err => res.status(400).json('Error:' + err));
 });
 
-router.route('/').get((req, res) => {
-  Requirement.find()
-  .then(requirements => res.json(requirements))
-  .catch(err => res.status(400).json('Error:' + err))
+//Update requirement based on the ID
+router.route('/update/:id').post((req,res) => {
+  Requirement.findById(req.params.id).then(requirement =>{
+    requirement._id = req.body._id;
+    requirement.winzoneID = req.body.winzoneID;
+    requirement.openDate = req.body.openDate;
+    requirement.statementOrder = req.body.statementOrder,
+    requirement.department = req.body.department;
+    requirement.jobTitle = req.body.jobTitle;
+    requirement.primarySkills = req.body.primarySkills;
+    requirement.jobDescription = req.body.jobDescription;
+    requirement.startDate = req.body.startDate;
+    requirement.duaration = req.body.duration;
+    requirement.requirementSts = req.body.requirementSts;
+    requirement.clientRate = req.body.clientRate;
+    requirement.vendorRate = req.body.vendorRate;
+    requirement.openPosition = req.body.openPosition;
+    requirement.filledPositions = req.body.filledPositions;
+    requirement.profilesReceived = req.body.profilesReceived;
+    requirement.profilesSubmitted = req.body.profilesSubmitted;
+    requirement.pendClientInterview = req.body.pendClientInterview;
+    requirement.clientRejected = req.body.clientRejected;
+    requirement.resourceInformation = req.body.resourceInformation
+
+    requirement.save()
+      .then(() => res.json('Requirement is updated'))
+      .catch(err => res.status(400).json('Error:' + err))
+  }).catch(err => res.status(400).json('Error:' + err))
 });
+
 
 module.exports = router;
